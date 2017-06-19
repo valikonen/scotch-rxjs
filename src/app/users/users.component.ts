@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
     moduleId: module.id,
@@ -7,10 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersComponent implements OnInit {
 
-    constructor() { }
+    successMsg: string = '';
+    errMsg: string = '';
+
+    constructor( private userService: UserService) { }
 
     ngOnInit() { 
+        this.userService.userCreated$.subscribe( user => {
+            this.successMsg = `${user.name} has been created!`;
+            this.clearMsg();
+        });
 
+        this.userService.userDeleted$.subscribe( () => {
+            this.successMsg = 'User has been deleted!';
+            this.clearMsg();
+        });
+        
+    }
+
+    clearMsg() {
+        setTimeout( () => {
+            this.successMsg = '';
+            this.errMsg = '';
+        }, 2000)
+        
     }
 
 }

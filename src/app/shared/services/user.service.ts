@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { UserModel } from '../model/user.model';
 
@@ -10,6 +12,14 @@ export class UserService {
 
     private userUrl: string = 'https://reqres.in/api/users';
     errMessage: any;
+
+    // Observable source
+    private userCreatedSource = new Subject<UserModel>();
+    private userDeletedSource = new Subject();
+
+    // Observable stream
+    userCreated$ = this.userCreatedSource.asObservable();
+    userDeleted$ = this.userDeletedSource.asObservable();
 
     constructor(private http: Http) {
         
@@ -48,6 +58,7 @@ export class UserService {
         return this.http
                    .post(`${this.userUrl}`, user)
                    .map(res => res.json())
+                   .do(user => this.userCreated(user))
                    .catch(this.handleError);
     }
 
@@ -68,7 +79,22 @@ export class UserService {
     deleteUser(userId: number): Observable<any> {
         return this.http
                    .delete(`${this.userUrl}/${userId}`)
+                   .do(res => this.userDeleted())
                    .catch(this.handleError)
+    }
+
+    /**
+     * The user was created. Add this info to our stream
+     */
+    private userCreated(user: UserModel) {
+        this.userCreatedSource.next(user);
+    }
+
+    /**
+     * The user was deleted. Add this info to our stream
+     */
+    private userDeleted() {
+        this.userDeletedSource.next();
     }
 
 
