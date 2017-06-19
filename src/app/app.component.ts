@@ -7,20 +7,20 @@ import { UserService } from './shared/services/user.service';
 @Component({
   selector: 'app-root',
   template: `
-    <div class="container">
-      <div class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a routerLink="/" class="navbar-brand">My App</a>
-          </div>
-          <ul class="nav navbar-nav">
-            <li>
-              <a routerLink="/users" class="navbar-brand">Users</a>
-            </li>            
-          </ul>
+   
+    <div class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a routerLink="/" class="navbar-brand">My App</a>
         </div>
+        <ul class="nav navbar-nav">
+          <li>
+            <a routerLink="/users" class="navbar-brand">Users</a>
+          </li>            
+        </ul>
       </div>
     </div>
+    
 
     <router-outlet></router-outlet>
     

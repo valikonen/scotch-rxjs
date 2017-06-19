@@ -8,6 +8,7 @@ import { UserService } from '../../shared/services/user.service';
     template: `
         <div class="jumbotron text-center">
             <h3>Users</h3>
+             <a [routerLink]="['/users/create']" class="btn btn-success">Create user</a>
         </div>
 
         <div class="user-list row" *ngIf="users">
@@ -15,6 +16,7 @@ import { UserService } from '../../shared/services/user.service';
                 <img [src]="user.avatar" alt="user.name" class="user-avatar img-rounded">
 
                 <h2> {{ user.name }} - <small>{{ user.username }}</small> </h2>
+
             </div>
         </div>
     `

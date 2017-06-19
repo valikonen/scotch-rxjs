@@ -41,11 +41,35 @@ export class UserService {
 
     }
 
-    // Create a user
+    /**
+     * Create a user
+     */ 
+    createUser(user: UserModel): Observable<UserModel> {
+        return this.http
+                   .post(`${this.userUrl}`, user)
+                   .map(res => res.json())
+                   .catch(this.handleError);
+    }
 
-    // Update a user
+    /**
+     * Update a user
+     */ 
+    updateUser(user: UserModel): Observable<UserModel> {
+        return this.http
+                    .get(`${this.userUrl}/${user.id}`, user)
+                    .map(res => res.json())
+                    .catch(this.handleError);
+                        
+    }
 
-    // Delete a user
+    /**
+     * Delete a user
+     */ 
+    deleteUser(userId: number): Observable<any> {
+        return this.http
+                   .delete(`${this.userUrl}/${userId}`)
+                   .catch(this.handleError)
+    }
 
 
     /**
@@ -69,7 +93,7 @@ export class UserService {
         if(err instanceof Response) {
             let body = err.json() || '';
             let error = body.error || JSON.stringify(body);
-            this.errMessage = `${err.status} - ${err.statusText} || '' ${error}`
+            this.errMessage = `${err.status} - ${err.statusText || ''} ${error}`
         }
         else {
             this.errMessage = err.message ? err.message : err.toString()
