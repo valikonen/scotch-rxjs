@@ -58,7 +58,7 @@ export class UserService {
         return this.http
                    .post(`${this.userUrl}`, user)
                    .map(res => res.json())
-                   .do(user => this.userCreated(user))
+                   .do(user => this.userCreate(user))
                    .catch(this.handleError);
     }
 
@@ -79,21 +79,21 @@ export class UserService {
     deleteUser(userId: number): Observable<any> {
         return this.http
                    .delete(`${this.userUrl}/${userId}`)
-                   .do(res => this.userDeleted())
+                   .do(res => this.userDelete())
                    .catch(this.handleError)
     }
 
     /**
      * The user was created. Add this info to our stream
      */
-    private userCreated(user: UserModel) {
+    private userCreate(user: UserModel) {
         this.userCreatedSource.next(user);
     }
 
     /**
      * The user was deleted. Add this info to our stream
      */
-    private userDeleted() {
+    private userDelete() {
         this.userDeletedSource.next();
     }
 

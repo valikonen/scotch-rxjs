@@ -18,9 +18,11 @@ import { UserListComponent } from './users/user-list/user-list.component';
 import { UserSingleComponent } from './users/user-single/user-single.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserCreateComponent } from './users/user-create/user-create.component';
+import { LoginComponent } from './login/login.component';
 
 
 import { UserService } from './shared/services/user.service';
+import { AuthService } from './shared/services/auth.service';
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import { UserService } from './shared/services/user.service';
     UserListComponent,
     UserSingleComponent,
     UserEditComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import { UserService } from './shared/services/user.service';
     routing
   ],
   providers: [
-    UserService    
+    UserService,
+    AuthService    
   ],
   bootstrap: [AppComponent]
 })
