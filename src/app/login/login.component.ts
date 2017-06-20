@@ -21,7 +21,7 @@ import { AuthService } from '../shared/services/auth.service';
                 {{successMsg}}
             </div>
             
-            <div class="alert alert-success" *ngIf="errMsg">
+            <div class="alert alert-error" *ngIf="errMsg">
                 {{errMsg}}
             </div>
 
@@ -43,19 +43,22 @@ export class LoginComponent implements OnInit {
 
     constructor( private router: Router, private authService: AuthService ) { }
 
-    ngOnInit() { 
-        
-    }
+    ngOnInit() { }
 
+    /**
+     * Login
+     */
     login() {
+        this.errMsg = '';
         this.authService.login(this.credentials.username, this.credentials.password).subscribe(
             data => {
                 this.router.navigate(['/users'])
             },
             err => {
-
+                this.errMsg = err;
             }
         )
     }
+
 
 }

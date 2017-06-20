@@ -8,12 +8,12 @@ import { Observable } from 'rxjs/Observable';
 export class AuthService {
 
     private authUrl: string = 'https://reqres.in/api';
-    private loggedIn;
+    private loggedIn: boolean = false;
     errMessage: string = '';
 
     constructor(private http: Http) {
         // Look at localStorage to check if the user is logged in
-        this.loggedIn = localStorage.getItem('auth_token');
+        this.loggedIn = !!localStorage.getItem('auth_token');
     }
     
     /**
@@ -34,12 +34,22 @@ export class AuthService {
                        console.log('res: ', res)
                        if (res.token) {
                            localStorage.setItem('auth_token', res.token);
+                           this.loggedIn = true;
                        }
                    })
                    .catch(this.handleError);
     }
 
-        /**
+    /**
+     * Logout
+     */
+    logout() {
+        localStorage.removeItem('auth_token');
+        this.loggedIn = false;
+    }
+
+
+    /**
      * Handle any errors from API
      */
     private handleError(err) {

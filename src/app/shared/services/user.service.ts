@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -43,8 +43,17 @@ export class UserService {
      * Get a single user
      */ 
     getUser(userId: number): Observable<UserModel> {
+
+        // Attaching a token
+        let headers = new Headers();
+        let token = localStorage.getItem('auth_token');
+
+        headers.append('ContentType', 'application/json');
+        headers.append('Authorization', `Barer ${token}`);
+    
+
         return this.http
-                   .get(`${this.userUrl}/${userId}`)
+                   .get(`${this.userUrl}/${userId}`, {headers})
                    .map( res => res.json().data )
                    .map( this.toUser)
                    .catch(this.handleError)

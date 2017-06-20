@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { UserModel } from './shared/model/user.model';
 import { UserService } from './shared/services/user.service';
+import { AuthService } from './shared/services/auth.service';
 
 
 @Component({
@@ -18,6 +20,12 @@ import { UserService } from './shared/services/user.service';
             <a routerLink="/users" class="navbar-brand">Users</a>
           </li>            
         </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li *ngIf="!isLoggedIn"><a routerLink="/login">Login</a></li>
+          <li *ngIf="isLoggedIn"><a (click)="logout()">Logut</a></li>
+        </ul>
+
       </div>
     </div>
     
@@ -30,7 +38,7 @@ export class AppComponent implements OnInit {
 
   users: UserModel[];
 
-  constructor(private userService: UserService) {
+  constructor( private router: Router, private userService: UserService, private authService: AuthService ) {
     
   }
 
@@ -51,5 +59,21 @@ export class AppComponent implements OnInit {
     //          })
       
   }
+
+  /**
+   * Logout
+   */
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+
+    /**
+     * Is user logged in?
+     */
+    get isLoggedIn() {
+        return this.authService.isLoggedIn();
+    }
 
 }
